@@ -32,3 +32,9 @@ li {
 a {
   color: var(--foreground-color);
 }
+
+img {
+  width: 300px;
+  border: 2px solid var(--foreground-color);
+  border-radius: 5px;
+}

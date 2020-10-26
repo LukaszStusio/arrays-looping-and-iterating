@@ -101,3 +101,112 @@ return {
 console.log("done: effect below")
 console.table(cleanedPeople);
 
+// Filter, Find and Higher Order Functions
+
+console.log('Filter(), Find() and higher order functions:')
+
+console.log('Filter() use: find people over 40;')
+// const overForty = cleanedPeople.filter(function(person){
+    //     if(person.age > 40) {
+        //         return true;
+        //     } else {
+//         return false
+//     }
+// });
+
+const overForty = cleanedPeople.filter(person => person.age > 40);
+console.table(overForty);
+
+overForty.length ? console.log('There are some people over 40;') : console.log('It seems that there is no person over 40 here;');
+
+// Find()
+console.log('Find() use:')
+
+function findStudentById(id) {
+    return function isThereAStudent(student) {
+        return student.id === id;
+    };
+};
+
+const student = students.find(findStudentById('11ce'));
+console.log(student)
+
+console.log('Find() by property: a more flexible function;')
+
+function findStudentByProperty (prop, propWeAreLookingFor) {
+    return function isThereAStudent(student) {
+        return student[prop] === propWeAreLookingFor;
+    }
+};
+
+const student1 = students.find(findStudentByProperty('id', '11ce'));
+const student2 = students.find(findStudentByProperty('first_name', 'Luke'));
+
+console.log('One function finding through different properties:');
+console.log('find by id');
+console.log(student1);
+console.log('find by name');
+console.log(student2);
+
+// reduce()
+console.log('reduce()!!!');
+
+const orderTotals = [342, 1002, 523, 34, 634, 854, 1644, 2222];
+console.table(orderTotals);
+
+function tallyNumbers(tally, currentTotal) {
+    console.log(`The current tally is ${tally}`);
+    console.log(`The current total is ${currentTotal}`);
+    console.log('---------')
+    // return the tally plus the amount of this order
+    return tally + currentTotal;
+};
+
+const allOrders = orderTotals.reduce(tallyNumbers, 0);
+console.log("Summary:");
+console.log(allOrders);
+
+
+// #52[11:25]
+// Counting instances...
+console.log('// Counting instances in an object:');
+
+const inventory = [
+    { type: 'shirt', price: 4000 },
+    { type: 'pants', price: 4532 },
+    { type: 'socks', price: 234 },
+    { type: 'shirt', price: 2343 },
+    { type: 'pants', price: 2343 },
+    { type: 'socks', price: 542 },
+    { type: 'pants', price: 123 },
+];
+
+console.table(inventory);
+
+function inventoryReducer(totals, item) {
+
+    // increment the type by one;
+    // totals.shirt = totals.shirt +1 || 1;
+    totals[item.type] = totals[item.type] + 1 || 1;
+
+
+    // or in that way:
+    // totals.shirt ? totals.shirt +1 : totals.shirt = 1;
+
+    /* reminder: above is the same as:
+    if(totals.shirt) {
+        totals.shirt = totals.shirt = 1;
+    } else {
+        totals.shirt = 1;
+    }*/
+
+    // return the total so the next  loop can use it:
+    return totals;
+};
+
+const inventoryCounts = inventory.reduce(inventoryReducer, {});
+console.log(inventoryCounts);
+
+const totalInventoryPrice = inventory.reduce((acc, item) => acc + item.price, 0);
+console.log('totalInventoryPrice');
+console.log(totalInventoryPrice);
